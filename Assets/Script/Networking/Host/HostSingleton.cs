@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class HostSingleton : MonoBehaviour
 {
-	HostSingleton _instance;
-	public HostSingleton Instance
+	static HostSingleton _instance;
+	public static HostSingleton Instance
 	{
 		get
 		{

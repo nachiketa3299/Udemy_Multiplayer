@@ -124,6 +124,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""e3fbd98d-0ff4-414f-ac3a-11b56ff56074"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PC"",
+                    ""action"": ""PrimaryFire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""16637702-94b8-415e-98a5-12529dfd1148"",
                     ""path"": ""<Pointer>/position"",
                     ""interactions"": """",

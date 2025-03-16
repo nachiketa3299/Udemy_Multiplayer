@@ -31,15 +31,15 @@ public static class AuthenticationWrapper
 				}
 			}
 			// 인증 실패
-			catch (AuthenticationException exception)
+			catch (AuthenticationException authException)
 			{
-				Debug.Log(exception);
+				Debug.Log(authException);
 				AuthState = AuthState.Error;
 			}
 			// 연결 실패
-			catch (RequestFailedException exception)
+			catch (RequestFailedException requestException)
 			{
-				Debug.Log(exception);
+				Debug.Log(requestException);
 				AuthState = AuthState.Error;
 			}
 

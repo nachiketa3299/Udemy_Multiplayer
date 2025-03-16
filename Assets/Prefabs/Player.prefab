@@ -599,7 +599,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1601621103
+  GlobalObjectIdHash: 2297004422
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -678,11 +678,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c609c23099980a46994649dd67b0401, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_inputListener: {fileID: 11400000, guid: 029500c8974dcfc43a5d83d5a1aacd80, type: 2}
-  m_bodyTransform: {fileID: 6681573077759186621}
-  m_rigidbody2D: {fileID: 951134690150741363}
-  m_movementSpeed: 10
-  m_turningRate: 270
+  _inputListener: {fileID: 11400000, guid: 029500c8974dcfc43a5d83d5a1aacd80, type: 2}
+  _bodyTransform: {fileID: 812220471745713148}
+  _rigidbody2D: {fileID: 951134690150741363}
+  _movementSpeed: 4
+  _turningRate: 30
 --- !u!114 &4883478230901402186
 MonoBehaviour:
   m_ObjectHideFlags: 0

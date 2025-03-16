@@ -83,15 +83,19 @@ public class ProjectileLauncher : NetworkBehaviour
 	// 발사 속도 제한
 	IEnumerator BlockFireTimerRoutine()
 	{
+		Debug.Log("You can't fire");
 		m_canFire = false;
 
-		float elapsedTime = 0.0f;
-		while (elapsedTime < 1.0f / m_fireRate)
-		{
-			elapsedTime += Time.deltaTime;
-			yield return null;
-		}
+		yield return new WaitForSeconds(1.0f / m_fireRate);
 
+		// float elapsedTime = 0.0f;
+		// while (elapsedTime < 1.0f / m_fireRate)
+		// {
+		// 	elapsedTime += Time.deltaTime;
+		// 	yield return null;
+		// }
+
+		Debug.Log("You can now fire");
 		m_canFire = true;
 	}
 

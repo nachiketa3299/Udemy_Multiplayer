@@ -32,14 +32,15 @@ public class ApplicationController : MonoBehaviour
 			// 현재 데디서버가 아니라면,
 			// 클라이언성 싱글턴과 호스트 싱글턴을 둘 다 생성
 
+			// 호스트 싱글턴 생성 (TODO: 왜 생성이 안됨?) // 먼저 생성해야 아래 await에서 걸림?
+			HostSingleton hostSingleton = Instantiate(_hostSingletonPrefab);
+			hostSingleton.CreateHost();
+
 			// 클라이언트 싱글턴 생성
 			ClientSingleton clientSignleton = Instantiate(_clientSingletonPrefab);
 			// Authenticate가 일어날 때 가지 기다려야함
 			bool isAuthenticated = await clientSignleton.CreateClient(); // wait
 
-			// 호스트 싱글턴 생성 (TODO: 왜 생성이 안됨?)
-			HostSingleton hostSingleton = Instantiate(_hostSingletonPrefab);
-			hostSingleton.CreateHost();
 
 			// 클라이언트가 성공적으로 Authenticated 되었으면, 메인 메뉴로 가면 됨
 			if (isAuthenticated)
