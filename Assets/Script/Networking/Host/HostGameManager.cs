@@ -61,7 +61,8 @@ public class HostGameManager
 		// 릴레이 서버를 사용하려면, 호스트의 네트워크 설정을 릴레이 서버에 맞게 변경해야 함
 		// 유니티 릴레이 서버에서 할당받은 _allocation 데이터를 기반으로 "이 호스트는 Unity Relay를 통해 데이터 전송할 것"이라고 설정
 		// TCP 대신에 UDP 사용 (실시간 게임에서 속도가 빠르고 지연이 적은 방식이나 손실 위험)
-		RelayServerData relayServerData = new RelayServerData(_allocation, "udp"); // user datagram protocoll
+		RelayServerData relayServerData = new RelayServerData(_allocation, "dtls"); // user datagram protocoll
+		// dtls 는 보안이 강화된 UDP라고 보면 됨 (안 되면 UDP로)
 		unityTransport.SetRelayServerData(relayServerData);
 
 		// Unity Relay 서비스에서 _allocation 받아오고, Unity Transport 설정에 적용
