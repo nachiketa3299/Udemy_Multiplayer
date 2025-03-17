@@ -1,8 +1,12 @@
 using System;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Collections;
 
 using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
+using Unity.Services.Lobbies;
+using Unity.Services.Lobbies.Models;
 
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
@@ -14,6 +18,7 @@ using UnityEngine.SceneManagement;
 // 유니티의 릴레이 서비스를 사용하여 멀티플레이어 게임의 호스트를 설정
 // 호스트는 다른 플레이어들이 접속할 수 있도록 게임을 열어주는 역할
 // 릴레이를 이용하므로 데디 서버는 아니고, 플레이어중 한 명이 호스트
+// Pure C# 클래스임을 유의할 것
 
 public class HostGameManager
 {
@@ -22,6 +27,7 @@ public class HostGameManager
 
 	Allocation _allocation;
 	string _joinCode;
+	string _lobbyId;
 
 	// 호스트가 되기 위한 준비 과정 수행
 	public async Task StartHostAsync()
@@ -67,9 +73,47 @@ public class HostGameManager
 
 		// Unity Relay 서비스에서 _allocation 받아오고, Unity Transport 설정에 적용
 
+		// 호스팅 하기 전에 로비를 만들어 볼 것임
+
+		try
+		{
+			// 만들 로비의 옵션
+			CreateLobbyOptions lobbyOptions = new CreateLobbyOptions();
+			lobbyOptions.IsPrivate = false;
+			// Join Code 데이터를 만듦
+			lobbyOptions.Data = new Dictionary<string, DataObject>()
+			{
+				{ "JoinCode", new DataObject(visibility: DataObject.VisibilityOptions.Public, value: _joinCode)}
+			};
+			
+			// 그냥 만들기만 하면 사라짐 매 15초동안 UGS 에게 핑을 보내야, 우리 로비가 Active 하다는 알릴 수 있음
+			// 아닌 경우 없애버림
+			Lobby lobby 
+				= await Lobbies.Instance.CreateLobbyAsync("My Lobby", MaxConnections, lobbyOptions);
+			
+			_lobbyId = lobby.Id;
+			// 이렇게도 싱글턴을 호출할 수 있음
+			HostSingleton.Instance.StartCoroutine(HeartBeatLobby(15.0f));
+		}
+		catch (LobbyServiceException exception)
+		{
+			Debug.Log(exception);
+		}
+
 		// 릴레이 셋업으로 외부에서 접근 가능하도록 한 후 호스팅 시작
 		NetworkManager.Singleton.StartHost(); // 호스트 역할 시작
 		// 씬 전환
 		NetworkManager.Singleton.SceneManager.LoadScene(GameSceneName, LoadSceneMode.Single);
+	}
+
+	IEnumerator HeartBeatLobby(float waitSeconds) 
+	{
+		WaitForSecondsRealtime timer = new(waitSeconds);
+
+		while (true)
+		{
+			Lobbies.Instance.SendHeartbeatPingAsync(_lobbyId);
+			yield return timer;
+		}
 	}
 }
